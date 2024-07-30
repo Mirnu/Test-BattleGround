@@ -5,7 +5,7 @@ import { actions } from "shared/constants/actions";
 export const BindableSkills = new Map<actions, Constructor<Skill>>();
 
 export function BindActionDecorator(action: actions) {
-	return (ctor: Constructor<Skill>) => {
+	return (ctor: Constructor<Skill<unknown[]>>) => {
 		BindableSkills.set(action, ctor);
 	};
 }

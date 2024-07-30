@@ -1,6 +1,7 @@
-import { ReplicatedStorage, Workspace } from "@rbxts/services";
+import { ReplicatedStorage } from "@rbxts/services";
 import { SkillDecorator } from "@rbxts/wcs";
 import { BindActionDecorator } from "shared/decoratos/BindActionDecorator";
+import { DealingDamageHitBox } from "shared/modules/DealingDamageHitBox";
 import { BaseSkill } from "./BaseSkill";
 
 @SkillDecorator
@@ -22,19 +23,8 @@ export class Attack extends BaseSkill {
 			this.rootPart.CFrame.LookVector.mul(3),
 		).mul(new CFrame(0, 0, -size.Z / 2));
 
-		const partsInHitbox = Workspace.GetPartBoundsInBox(position, size);
-
-		const hitCharacters = new Set(
-			partsInHitbox
-				.map((part) => part.FindFirstAncestorOfClass("Model"))
-				.filterUndefined(),
-		);
-		hitCharacters.delete(this.characterModel);
-
-		for (const parent of hitCharacters) {
-			const humanoid = parent.FindFirstChildOfClass("Humanoid");
-			humanoid?.TakeDamage(10);
-		}
+		const hitBox = new DealingDamageHitBox(position, size, this.characterModel);
+		hitBox.GetDamagedInHitBox().GiveDamageEveryone(10);
 	}
 
 	protected OnStartServer(): void {
