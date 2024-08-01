@@ -18,5 +18,6 @@
 	},
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"git.ignoreLimitWarning": true,
-	"editor.codeActionsOnSave": ["source.organizeImports"]
+	"editor.codeActionsOnSave": ["source.organizeImports"],
+	"editor.mouseWheelZoom": true
 }

@@ -1,16 +1,15 @@
 import { OnStart, Service } from "@flamework/core";
 import { Players } from "@rbxts/services";
+import { CharacterRig } from "shared/types/CharacterRig";
 
 @Service()
 class PlayerService implements OnStart {
 	public onStart(): void {
 		Players.PlayerAdded.Connect((player) => {
 			player.CharacterAppearanceLoaded.Connect((char) => {
-				for (const item of char.GetDescendants()) {
-					if (item.IsA("Accessory")) {
-						item.Destroy();
-					}
-				}
+				const character = char as CharacterRig;
+				const humanoid = character.Humanoid;
+				humanoid.RemoveAccessories();
 			});
 		});
 	}
